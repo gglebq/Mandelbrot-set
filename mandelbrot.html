@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+	magnificationFactor: <input type="number" name="magnificationFactor" id="magnificationFactor" value="200">
+	panX: <input type="number" name="panX" id="panX" value="2">
+	panY: <input type="number" name="panY" id="panY" value="1.5">
+	<button type="button" onClick="main()">Submit</button>
+  <script>
+  // Create Canvas
+    var myCanvas = document.createElement("canvas");
+    myCanvas.width = screen.width-25;
+    myCanvas.height = screen.height-125;
+    document.body.appendChild(myCanvas);
+    var ctx = myCanvas.getContext("2d");
+  function checkIfBelongsToMandelbrotSet(x, y) {
+      var realComponentOfResult = x;
+      var imaginaryComponentOfResult = y;
+      var maxIterations = 500;
+
+      for (var i = 0; i < maxIterations; i++) {
+        // Calculate the real and imaginary components of the result
+        // separately
+        var tempRealComponent = realComponentOfResult * realComponentOfResult -
+          imaginaryComponentOfResult * imaginaryComponentOfResult +
+          x;
+
+        var tempImaginaryComponent = 2 * realComponentOfResult * imaginaryComponentOfResult +
+          y;
+
+        realComponentOfResult = tempRealComponent;
+        imaginaryComponentOfResult = tempImaginaryComponent;
+
+        // Return a number as a percentage
+        if (realComponentOfResult * imaginaryComponentOfResult > 5)
+          return (i / maxIterations * 100);
+      }
+      return 0; // Not in the set
+    }
+  function main() {
+    var magnificationFactor = document.getElementById("magnificationFactor").value;
+    var panX = document.getElementById("panX").value;
+    var panY = document.getElementById("panY").value;
+    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+
+    // Start drawing
+    for (var x = 0; x < myCanvas.width; x++) {
+      for (var y = 0; y < myCanvas.height; y++) {
+        var belongsToSet = checkIfBelongsToMandelbrotSet(x / magnificationFactor - panX, y / magnificationFactor - panY);
+        if (belongsToSet == 0) {
+          ctx.fillStyle = '#000';
+          ctx.fillRect(x, y, 1, 1); // Draw a black pixel
+        } else {
+          ctx.fillStyle = 'hsl(0, 100%, ' + belongsToSet + '%)';
+          ctx.fillRect(x, y, 1, 1); // Draw a colorful pixel
+        }
+      }
+    }
+}
+  </script>
+</body>
+
+</html>
