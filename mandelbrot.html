@@ -5,6 +5,9 @@
 	magnificationFactor: <input type="number" name="magnificationFactor" id="magnificationFactor" value="200">
 	panX: <input type="number" name="panX" id="panX" value="2">
 	panY: <input type="number" name="panY" id="panY" value="1.5">
+	Background Color: <input type="text" name="color1" id="color1" value="#000">
+	Draw Color Accent: <input type="number" name="color2" id="color2" value="200">
+	Iterations: <input type="number" name="iterations" id="iterations" value="500">
 	<button type="button" onClick="main()">Submit</button>
   <script>
   // Create Canvas
@@ -16,7 +19,7 @@
   function checkIfBelongsToMandelbrotSet(x, y) {
       var realComponentOfResult = x;
       var imaginaryComponentOfResult = y;
-      var maxIterations = 1000;
+      var maxIterations = document.getElementById("iterations").value;
 
       for (var i = 0; i < maxIterations; i++) {
         // Calculate the real and imaginary components of the result
@@ -41,6 +44,8 @@
     var magnificationFactor = document.getElementById("magnificationFactor").value;
     var panX = document.getElementById("panX").value;
     var panY = document.getElementById("panY").value;
+    var colorbg = document.getElementById("color1").value;
+    var color = document.getElementById("color2").value;
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
 
     // Start drawing
@@ -48,10 +53,10 @@
       for (var y = 0; y < myCanvas.height; y++) {
         var belongsToSet = checkIfBelongsToMandelbrotSet(x / magnificationFactor - panX, y / magnificationFactor - panY);
         if (belongsToSet == 0) {
-          ctx.fillStyle = '#000';
+          ctx.fillStyle = colorbg;
           ctx.fillRect(x, y, 1, 1); // Draw a black pixel
         } else {
-          ctx.fillStyle = 'hsl(200, 100%, ' + belongsToSet + '%)';
+          ctx.fillStyle = 'hsl('+color+', 100%, ' + belongsToSet + '%)';
           ctx.fillRect(x, y, 1, 1); // Draw a colorful pixel
         }
       }
