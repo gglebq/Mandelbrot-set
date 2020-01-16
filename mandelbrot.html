@@ -9,14 +9,14 @@
   <script>
   // Create Canvas
     var myCanvas = document.createElement("canvas");
-    myCanvas.width = screen.width-25;
-    myCanvas.height = screen.height-125;
+    myCanvas.width = 1920;//screen.width-25;
+    myCanvas.height = 1080;//screen.height-125;
     document.body.appendChild(myCanvas);
     var ctx = myCanvas.getContext("2d");
   function checkIfBelongsToMandelbrotSet(x, y) {
       var realComponentOfResult = x;
       var imaginaryComponentOfResult = y;
-      var maxIterations = 500;
+      var maxIterations = 1000;
 
       for (var i = 0; i < maxIterations; i++) {
         // Calculate the real and imaginary components of the result
@@ -51,7 +51,7 @@
           ctx.fillStyle = '#000';
           ctx.fillRect(x, y, 1, 1); // Draw a black pixel
         } else {
-          ctx.fillStyle = 'hsl(0, 100%, ' + belongsToSet + '%)';
+          ctx.fillStyle = 'hsl(200, 100%, ' + belongsToSet + '%)';
           ctx.fillRect(x, y, 1, 1); // Draw a colorful pixel
         }
       }
